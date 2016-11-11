@@ -11,16 +11,22 @@ import time
 from time import sleep
 from selenium.common.exceptions import NoSuchElementException
 
-def findTwitterHandler(path):	
-			
-	profileName = driver.find_element_by_xpath(path).text
-	profile = driver.find_element_by_xpath(path).get_attribute("href")
+import codecs
+import sys
+
+UTF8Writer = codecs.getwriter('utf8')
+sys.stdout = UTF8Writer(sys.stdout)
+
+def findTwitterHandler(ppl):	
+
+	profileName = ppl.text
+	profile = ppl.get_attribute("href")
+	print(profileName)
 
 	main_window = driver.current_window_handle
 
-	print "Profile XpathString: %s," % (profileXpathString)     
-	print "Profile name: %s," % (profileName)
-	print "Open window: %s," % (main_window)
+	# print "Profile name: %s," % (profileName)
+	# print "Open window: %s," % (main_window)
 	
 	script = '''window.open("%s", "Whatever")''' % (profile)
 
@@ -29,25 +35,35 @@ def findTwitterHandler(path):
 	driver.switch_to_window(next_window)
 	
 
-	print "All windows: %s," % (driver.window_handles)
-	print "Swtched to window: %s," % (next_window)
-	print "Current window: %s," % driver.current_window_handle
+	# print "All windows: %s," % (driver.window_handles)
+	# print "Swtched to window: %s," % (next_window)
+	# print "Current window: %s," % driver.current_window_handle
 
 	driver.execute_script(script)
+	time.sleep(10)
 	try: 
+		location =  driver.find_element_by_css_selector('span.tag > span.fontello-location:first-of-type + a').text
+		# print(location)
+		position = driver.find_element_by_css_selector('span.tag > span.fontello-tag-1:first-of-type +a').text
+		# print(position)	
+		linkedin = driver.find_element_by_css_selector("*[class^='icon link_el fontello-linkedin']").get_attribute("href")
+		# print(linkedin)
+		
+
 		handler = driver.find_element_by_css_selector("*[class^='icon link_el fontello-twitter']")
-		twitterLink = handler.get_attribute("href")
-		print(twitterLink)
+		twitterLink = handler.get_attribute("href")	
+		# print(twitterLink)
+		
 		
 		with open("handlersData.csv", "a") as scrapedDataFile:
 			scrapedDataFileWriter = csv.writer(scrapedDataFile)
-			scrapedDataFileWriter.writerow([profileName, twitterLink])
+			scrapedDataFileWriter.writerow([profileName, twitterLink, location, position, linkedin])
 
 		scrapedDataFile.close()
 		print "Profile saved"
 		driver.close()
 	except NoSuchElementException: 
-		driver.close()   
+		driver.close()  
 
 	driver.switch_to_window(main_window)
 	sleep(2) #wait until new tab finishes loading
@@ -67,40 +83,18 @@ time.sleep(60)
 # moreBtn = driver.find_element_by_css_selector("*[class^='more_link u-unstyledLink u-textShadowWhite']").click()
 # print "Button is clicked %s " % (moreBtn)
 
+# listOfPeople = 
 
+persons = []
 
+# for person in driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]'):
+# 	# print(person.get_attribute("href"))
+# 	findTwitterHandler(person)	
 
-listOfPeople = driver.find_elements_by_css_selector("a[href*='?utm_source=people']")
+for x in range(96,180):
+	u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
+	findTwitterHandler(u)
 
-print(listOfPeople)
-
-
-# for x in range(1,):
-# 	if x <= 12:
-# 		profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (x)
-# 		print "Loop counter:  %d" % (x)
-# 		findTwitterHandler(profileXpathString)
-		
-# 	elif x > 12 and x <= 24:
-# 		for y in range(1, 13):
-# 			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (y)
-# 			print(profileXpathString)
-# 			findTwitterHandler(profileXpathString)
-# 	elif x > 24 and x <= 36:
-# 		for c in range(1, 13):
-# 			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (c)
-# 			print(profileXpathString)
-# 			findTwitterHandler(profileXpathString)
-
-	
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[12]/div/div[1]/div/div[2]/div[1]/a
-
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[12]/div/div[1]/div/div[2]/div[1]/a
-
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]        /div[12]/div/div[1]/div/div[2]/div[1]/a
-
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[13]/div[11]/div/div[1]/div/div[2]/div[1]/a
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[13]/div[12]/div/div[1]/div/div[2]/div[1]/a
 
 
 
