@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import configAngel
-from configAngel import _user, _pw
+# import data
+# from data import _prof
 import csv
 import selenium
 from selenium import webdriver
@@ -57,41 +57,51 @@ def findTwitterHandler(path):
 
 chrome_path = r"/Users/mila/Downloads/chromedriver"
 driver = webdriver.Chrome(chrome_path)
+driver.implicitly_wait(120)
 
 driver.set_page_load_timeout(30)
 driver.get("https://angel.co/people/all")	
 driver.implicitly_wait(20)
+time.sleep(60)
 
-moreBtn = driver.find_element_by_css_selector("*[class^='more_link u-unstyledLink u-textShadowWhite']").click()
-print "Button is clicked %s " % (moreBtn)
-driver.set_page_load_timeout(30)
+# moreBtn = driver.find_element_by_css_selector("*[class^='more_link u-unstyledLink u-textShadowWhite']").click()
+# print "Button is clicked %s " % (moreBtn)
 
 
-for x in range(1,36):
-	if x <= 12:
-		profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (x)
-		print "Loop counter:  %d" % (x)
-		findTwitterHandler(profileXpathString)
+
+
+listOfPeople = driver.find_elements_by_css_selector("a[href*='?utm_source=people']")
+
+print(listOfPeople)
+
+
+# for x in range(1,):
+# 	if x <= 12:
+# 		profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (x)
+# 		print "Loop counter:  %d" % (x)
+# 		findTwitterHandler(profileXpathString)
 		
-	elif x > 12 and x <= 24:
-		for y in range(1, 13):
-			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (y)
-			print(profileXpathString)
-			findTwitterHandler(profileXpathString)
-	elif x > 24 and x <= 36:
-		for c in range(1, 13):
-			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (c)
-			print(profileXpathString)
-			findTwitterHandler(profileXpathString)
+# 	elif x > 12 and x <= 24:
+# 		for y in range(1, 13):
+# 			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (y)
+# 			print(profileXpathString)
+# 			findTwitterHandler(profileXpathString)
+# 	elif x > 24 and x <= 36:
+# 		for c in range(1, 13):
+# 			profileXpathString = '''//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[%s]/div/div[1]/div/div[2]/div[1]/a''' % (c)
+# 			print(profileXpathString)
+# 			findTwitterHandler(profileXpathString)
 
 	
 # //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[12]/div/div[1]/div/div[2]/div[1]/a
 
 # //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[12]/div/div[1]/div/div[2]/div[1]/a
 
-# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[12]/div/div[1]/div/div[2]/div[1]/a
+# //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]        /div[12]/div/div[1]/div/div[2]/div[1]/a
 
 # //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[13]/div[11]/div/div[1]/div/div[2]/div[1]/a
 # //*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/div[13]/div[13]/div[12]/div/div[1]/div/div[2]/div[1]/a
+
+
 
 
