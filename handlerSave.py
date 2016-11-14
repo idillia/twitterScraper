@@ -37,7 +37,7 @@ list = driver.find_element_by_css_selector("a[href*='profile']")
 print(list)
 print(list.text)
 # listId = driver.find_elements_by_id("_name_link")
-# listId1 = driver.find_elements_by_xpath('//div[contains(., "name_link")]')
+listId1 = driver.find_elements_by_xpath('//div[13]/a')
 
 
 # print(list)

@@ -14,6 +14,12 @@ from selenium.common.exceptions import NoSuchElementException
 import codecs
 import sys
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
+
 UTF8Writer = codecs.getwriter('utf8')
 sys.stdout = UTF8Writer(sys.stdout)
 
@@ -70,32 +76,34 @@ def findTwitterHandler(ppl):
 	return;
 
 
+def loopOverList(start, end):
+	for x in range(start,end):
+		u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
+		findTwitterHandler(u)	
+
+def clickMoreBtn(startClickAt, endClickAt):
+	xPathBtnString = '//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/a'
+	extraDiv = 'div[13]/a'
+	for x in range(startClickAt, endClickAt):
+		btn = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, xPathBtnString)))
+		print "Collecting data %s " % btn
+		btn.click()
+		xPathBtnString = xPathBtnString[:-1]
+		xPathBtnString = "%s%s" % (xPathBtnString, extraDiv)
+
 
 chrome_path = r"/Users/mila/Downloads/chromedriver"
 driver = webdriver.Chrome(chrome_path)
-driver.implicitly_wait(120)
 
+driver.get("https://angel.co/people/all")
 driver.set_page_load_timeout(30)
-driver.get("https://angel.co/people/all")	
-driver.implicitly_wait(20)
-time.sleep(60)
 
-# moreBtn = driver.find_element_by_css_selector("*[class^='more_link u-unstyledLink u-textShadowWhite']").click()
-# print "Button is clicked %s " % (moreBtn)
-
-# listOfPeople = 
-
-persons = []
-
-# for person in driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]'):
-# 	# print(person.get_attribute("href"))
-# 	findTwitterHandler(person)	
-
-for x in range(96,180):
-	u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
-	findTwitterHandler(u)
+clickMoreBtn(0,3)
+loopOverList(11,36)
 
 
 
-
+# for x in range(96,180):
+# 	u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
+# 	findTwitterHandler(u)
 
