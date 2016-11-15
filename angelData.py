@@ -20,6 +20,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 
+from selenium.webdriver import Chrome
+from selenium.webdriver.chrome.options import Options
+
+
+
 UTF8Writer = codecs.getwriter('utf8')
 sys.stdout = UTF8Writer(sys.stdout)
 
@@ -66,7 +71,7 @@ def findTwitterHandler(ppl):
 			scrapedDataFileWriter.writerow([profileName, twitterLink, location, position, linkedin])
 
 		scrapedDataFile.close()
-		print "Profile saved"
+		print "-------Profile saved-----"
 		driver.close()
 	except NoSuchElementException: 
 		driver.close()  
@@ -78,6 +83,7 @@ def findTwitterHandler(ppl):
 
 def loopOverList(start, end):
 	for x in range(start,end):
+		print "Checking person number %s" % x
 		u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
 		findTwitterHandler(u)	
 
@@ -85,11 +91,19 @@ def clickMoreBtn(startClickAt, endClickAt):
 	xPathBtnString = '//*[@id="root"]/div[4]/div[2]/div[1]/div/div/div[2]/div/div[2]/div/div[13]/a'
 	extraDiv = 'div[13]/a'
 	for x in range(startClickAt, endClickAt):
-		btn = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, xPathBtnString)))
+		btn = WebDriverWait(driver, 50).until(EC.visibility_of_element_located((By.XPATH, xPathBtnString)))
 		print "Collecting data %s " % btn
 		btn.click()
 		xPathBtnString = xPathBtnString[:-1]
 		xPathBtnString = "%s%s" % (xPathBtnString, extraDiv)
+
+
+# chrome_options = Options()
+# chrome_options.add_argument('--dns-prefetch-disable')
+# driver = Chrome(chrome_options)
+
+
+
 
 
 chrome_path = r"/Users/mila/Downloads/chromedriver"
@@ -98,8 +112,8 @@ driver = webdriver.Chrome(chrome_path)
 driver.get("https://angel.co/people/all")
 driver.set_page_load_timeout(30)
 
-clickMoreBtn(0,3)
-loopOverList(11,36)
+clickMoreBtn(0,50)
+# loopOverList(577,588)
 
 
 
