@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# import data
-# from data import _prof
+
 import csv
 import selenium
 from selenium import webdriver
@@ -98,14 +97,6 @@ def clickMoreBtn(startClickAt, endClickAt):
 		xPathBtnString = "%s%s" % (xPathBtnString, extraDiv)
 
 
-# chrome_options = Options()
-# chrome_options.add_argument('--dns-prefetch-disable')
-# driver = Chrome(chrome_options)
-
-
-
-
-
 chrome_path = r"/Users/mila/Downloads/chromedriver"
 driver = webdriver.Chrome(chrome_path)
 
@@ -113,11 +104,6 @@ driver.get("https://angel.co/people/all")
 driver.set_page_load_timeout(30)
 
 clickMoreBtn(0,50)
-# loopOverList(577,588)
+loopOverList(577,588)
 
-
-
-# for x in range(96,180):
-# 	u = driver.find_elements_by_css_selector('a[class="u-colorGray3 u-uncoloredLink"][data-type="User"]')[x]
-# 	findTwitterHandler(u)
 
